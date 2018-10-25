@@ -20,20 +20,30 @@ public class RedisPoolFactory {
     @Autowired
     RedisConfig redisConfig;
 
+    /*
+    https://github.com/xetorthio/jedis/wiki/Getting-started
+    JedisPool 适用于多线程环境，线程安全，并且可以获得很好的性能
+     */
     @Bean
     public JedisPool JedisPoolFactory() {
-        System.out.println(redisConfig.getPoolMaxTotal());
-        System.out.println(redisConfig.getPoolMaxIdle());
-        System.out.println(redisConfig.getPoolMaxWait());
-        System.out.println(redisConfig.getHost());
-        System.out.println(redisConfig.getPort());
-        System.out.println(redisConfig.getTimeout());
-        System.out.println(redisConfig.getPassword());
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
-        poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
-        poolConfig.setMaxWaitMillis(redisConfig.getPoolMaxWait());
-        return new JedisPool(poolConfig,
+//        System.out.println(redisConfig.getPoolMaxTotal());
+//        System.out.println(redisConfig.getPoolMaxIdle());
+//        System.out.println(redisConfig.getPoolMaxWait());
+//        System.out.println(redisConfig.getHost());
+//        System.out.println(redisConfig.getPort());
+//        System.out.println(redisConfig.getTimeout());
+//        System.out.println(redisConfig.getPassword());
+//        JedisPoolConfig poolConfig = new JedisPoolConfig();
+////        poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
+////        poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
+////        poolConfig.setMaxWaitMillis(redisConfig.getPoolMaxWait());
+//        return new JedisPool(poolConfig,
+//                redisConfig.getHost(),
+//                redisConfig.getPort(),
+//                redisConfig.getTimeout(),
+//                redisConfig.getPassword());
+
+        return new JedisPool(new JedisPoolConfig(),
                 redisConfig.getHost(),
                 redisConfig.getPort(),
                 redisConfig.getTimeout(),

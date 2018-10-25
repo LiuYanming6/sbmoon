@@ -23,11 +23,16 @@ public class RedisService {
         this.jedisPool = jedisPool;
     }
 
-    public <T> T get(String key, Class<T> clazz) {
+    public <T> T get(KeyPrefix keyPrefix, String key, Class<T> clazz) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
-            String str = jedis.get(key);
+            String realKey = null;
+            if (keyPrefix != null) realKey = keyPrefix.getPrefix() + key;
+            else realKey = key;
+
+            System.out.println(realKey);
+            String str = jedis.get(realKey);
             T t = stringToBean(str, clazz);
             return t;
         } finally {
@@ -39,12 +44,18 @@ public class RedisService {
         }
     }
 
-    public <T> boolean set(String key, T value) {
+    public <T> boolean set(KeyPrefix keyPrefix, String key, T value) {
         Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
+            String realKey = keyPrefix.getPrefix() + key;
             String str = beanToString(value);
-            jedis.set(key, str);
+            int seconds = keyPrefix.expireSeconds();
+            if (seconds <= 0) {
+                jedis.set(realKey, str);
+            }else{
+                jedis.setex(realKey, seconds, str);
+            }
             return true;
         } finally {
             //连接池记得关闭，不然后面可能就不够用了
@@ -52,6 +63,18 @@ public class RedisService {
                 //看源码进去，实际上是还到连接池里了
                 jedis.close();
             }
+        }
+    }
+
+    public boolean exists(KeyPrefix keyPrefix, String key){
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+
+            String realKey = keyPrefix.getPrefix() + key;
+            return jedis.exists(realKey);
+        }finally {
+            jedis.close();
         }
     }
 

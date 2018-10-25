@@ -14,7 +14,7 @@ public class User {
     }
 
     public String getName() {
-        return "扭轱辘" + name;
+        return name;
     }
 
     public void setName(String name) {
