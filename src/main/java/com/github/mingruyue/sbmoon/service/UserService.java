@@ -33,4 +33,9 @@ public class UserService {
 
         return true;
     }
+
+    //只是为了使测试测试
+    public String greet() {
+        return "He He";
+    }
 }

@@ -12,11 +12,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DbController {
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    private final RedisService redisService;
 
     @Autowired
-    RedisService redisService;
+    public DbController(UserService userService, RedisService redisService) {
+        this.userService = userService;
+        this.redisService = redisService;
+    }
+
+    //只是为了使测试测试
+    @RequestMapping("/greet")
+    public @ResponseBody
+    String greeting() {
+        return userService.greet();
+    }
 
     @RequestMapping("get")
     @ResponseBody
