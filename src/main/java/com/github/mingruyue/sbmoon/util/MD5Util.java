@@ -46,6 +46,6 @@ public class MD5Util {
         System.out.println(inputPass2FormPass(""));
 //        System.out.println(formPass2DbPass("12345", "12345678"));
         //这个值就是要填入数据库的，用于登录功能
-        System.out.println(inputPass2DbPass("123456", "12345678"));
+        System.out.println(inputPass2DbPass("12345678", "lyme333715"));
     }
 }

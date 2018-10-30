@@ -99,8 +99,13 @@
             <version>1.10</version>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <!--jsr303 参数校验-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
 
+    </dependencies>
     <build>
         <plugins>
             <plugin>
